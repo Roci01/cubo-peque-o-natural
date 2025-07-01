@@ -76,6 +76,7 @@
       <label>¿Deseas empaque especial de regalo?</label>
       <select id="empaqueRegalo" onchange="actualizarPrecio()">
         <option value="estandar" selected>No, gracias (bolsita estándar)</option>
+        <option value="Caja kraft">Caja kraft (+120 CUP)</option>
         <option value="Caja plateada">Caja plateada (+280 CUP)</option>
       </select>
 
@@ -98,13 +99,17 @@
 
   <script>
     const precioBase = 180;
+    const precioCajaKraft = 120;
     const precioCajaPlateada = 280;
 
     function actualizarPrecio() {
       const cantidad = parseInt(document.getElementById('cantidad').value || 1, 10);
       const empaque = document.getElementById('empaqueRegalo').value;
 
-      let extraEmpaque = empaque === "Caja plateada" ? precioCajaPlateada : 0;
+      let extraEmpaque = 0;
+      if (empaque === "Caja kraft") extraEmpaque = precioCajaKraft;
+      else if (empaque === "Caja plateada") extraEmpaque = precioCajaPlateada;
+
       let total = (precioBase * cantidad) + extraEmpaque;
 
       document.getElementById("precioUnidad").textContent = "💰 Precio por unidad: " + precioBase + " CUP";
@@ -140,7 +145,10 @@
         return;
       }
 
-      const extraEmpaque = empaque === "Caja plateada" ? precioCajaPlateada : 0;
+      let extraEmpaque = 0;
+      if (empaque === "Caja kraft") extraEmpaque = precioCajaKraft;
+      else if (empaque === "Caja plateada") extraEmpaque = precioCajaPlateada;
+
       const total = (precioBase * cantidad) + extraEmpaque;
 
       const mensaje = "Hola, quiero hacer un pedido de velas:\n\n"
